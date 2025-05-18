@@ -1,0 +1,22 @@
+{
+    "name": "readme-chic",
+    "version": "0.1.0",
+    "description": "CLI & service SVG pour README personnalisés",
+    "bin": {
+      "readme-chic": "./bin/readme-chic.js"
+    },
+    "scripts": {
+      "init": "node bin/readme-chic.js init",
+      "build": "node bin/readme-chic.js build",
+      "deploy-worker": "cd worker && wrangler publish"
+    },
+    "dependencies": {
+      "commander": "^9.0.0",
+      "front-matter": "^4.0.2",
+      "handlebars": "^4.7.7",
+      "querystring": "^0.2.0"
+    },
+    "devDependencies": {
+      "wrangler": "^3.0.0"
+    }
+  }

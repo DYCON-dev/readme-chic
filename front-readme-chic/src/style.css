@@ -1,0 +1,64 @@
+/* Global styles for Readme Chic */
+/* Import Tailwind CSS */
+@import "tailwindcss";
+/* Import DaisyUI plugin */
+@plugin "daisyui";
+
+/* CSS custom properties (root variables) */
+:root {
+
+}
+
+/* Global body styles */
+body {
+  margin: 0;
+
+  background-color: #1D232A;
+
+}
+
+/* App container styles */
+#app {
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* DaisyUI theme configuration */
+@plugin "daisyui/theme" {
+  /* Theme name */
+  name: "readme";
+  /* Do not apply by default */
+  default: false;
+  /* Do not follow OS dark mode preference */
+  prefersdark: false;
+  color-scheme: "dark";
+  
+  --color-base-100: #12161B;
+  --color-base-200: #1D232A;
+  --color-base-300: #3D444D;
+  --color-base-content: #D4D4D8;
+  --color-primary: #202830;
+  --color-primary-content: oklch(87% 0.006 286.286);
+  --color-secondary: #EA003E;
+  --color-secondary-content: #440607;
+  --color-accent: #99E600;
+  --color-accent-content: #182E02;
+  --color-neutral: #00B6D9;
+  --color-neutral-content: #053345;
+  --color-info: #4EA0FF;
+  --color-info-content: #162455;
+  --color-success: #00DE72;
+  --color-success-content: #022D13;
+  --color-warning: #FF8905;
+  --color-warning-content: #431204;
+  --color-error: #F961B4;
+  --color-error-content: #500223;
+  --radius-selector: 1rem;
+  --radius-field: 1rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
