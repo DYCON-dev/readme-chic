@@ -23,16 +23,25 @@
 
     <!-- Preview -->
     <div class="relative w-full overflow-visible flex justify-center items-center pb-8 pt-6">
-      <img v-if="blockLink" :src="blockLink" :width="blocks[selectedBlock].width" :height="blocks[selectedBlock].height" alt="Block Preview" />
+      <img
+        v-if="blockLink"
+        :src="blockLink"
+        :width="blocks[selectedBlock].width"
+        :height="blocks[selectedBlock].height"
+        alt="Block Preview"
+      />
       <p v-else class="text-sm text-base-300 m-2">No block generated.</p>
     </div>
 
     <!-- Controls -->
     <div class="relative w-full overflow-visible pb-4">
-      <div v-if="hoveredItem"
-           class="hover-panel absolute bottom-full left-1/2 transform -translate-x-1/2 mb-4 bg-base-100 p-4 rounded-box shadow-lg z-50 border border-primary"
-           style="width: 50vw;">
+      <div
+        v-if="hoveredItem"
+        class="hover-panel absolute bottom-full left-1/2 transform -translate-x-1/2 mb-4 bg-base-100 p-4 rounded-box shadow-lg z-50 border border-primary"
+        style="width: 50vw;"
+      >
         <button @click="hoveredItem=''" class="btn btn-sm btn-ghost absolute top-2 right-2">✕</button>
+
         <!-- Size -->
         <div v-if="hoveredItem==='Size'" class="flex gap-4">
           <div class="flex flex-col flex-1">
@@ -44,6 +53,7 @@
             <input type="number" v-model.number="blocks[selectedBlock].height" class="input input-sm w-full" />
           </div>
         </div>
+
         <!-- Colors -->
         <div v-else-if="hoveredItem==='Color'" class="flex gap-4">
           <div class="flex flex-col flex-1">
@@ -54,7 +64,18 @@
             <label class="font-bold mb-1">Text Color</label>
             <input type="color" v-model="blocks[selectedBlock].textColor" class="input input-sm w-full" />
           </div>
+          <!-- Background Image URL -->
+          <div class="flex flex-col flex-1">
+            <label class="font-bold mb-1">Background Image URL</label>
+            <input
+              type="text"
+              v-model="blocks[selectedBlock].bgImage"
+              placeholder="URL image de fond"
+              class="input input-sm w-full"
+            />
+          </div>
         </div>
+
         <!-- Border -->
         <div v-else-if="hoveredItem==='Border'" class="flex gap-4">
           <div class="flex flex-col flex-1">
@@ -77,6 +98,7 @@
             </select>
           </div>
         </div>
+
         <!-- Text / Title / Desc -->
         <div v-else-if="hoveredItem==='Text'" class="flex flex-col gap-4">
           <label class="font-bold mb-1">Title</label>
@@ -127,6 +149,7 @@
             </div>
           </div>
         </div>
+
         <!-- Logo -->
         <div v-else-if="hoveredItem==='Logo'" class="flex flex-col gap-4">
           <label class="font-bold mb-1">Logo URL</label>
@@ -134,25 +157,31 @@
           <div class="flex gap-4 w-full">
             <div class="flex flex-col flex-1">
               <label class="font-bold mb-1">Logo Width (px)</label>
-              <input type="number"
-                     v-model.number="blocks[selectedBlock].logoWidth"
-                     @input="buildLink"
-                     class="input input-sm w-full"/>
+              <input
+                type="number"
+                v-model.number="blocks[selectedBlock].logoWidth"
+                @input="buildLink"
+                class="input input-sm w-full"
+              />
             </div>
             <div class="flex flex-col flex-1">
               <label class="font-bold mb-1">Logo Height (px)</label>
-              <input type="number"
-                     v-model.number="blocks[selectedBlock].logoHeight"
-                     @input="buildLink"
-                     class="input input-sm w-full"/>
+              <input
+                type="number"
+                v-model.number="blocks[selectedBlock].logoHeight"
+                @input="buildLink"
+                class="input input-sm w-full"
+              />
             </div>
           </div>
           <div class="flex gap-4 w-full">
             <div class="flex flex-col flex-1">
               <label class="font-bold mb-1">Logo Position</label>
-              <select v-model="blocks[selectedBlock].logoPosition"
-                      @change="buildLink"
-                      class="select select-sm w-full">
+              <select
+                v-model="blocks[selectedBlock].logoPosition"
+                @change="buildLink"
+                class="select select-sm w-full"
+              >
                 <option value="top">top</option>
                 <option value="middle">middle</option>
                 <option value="bottom">bottom</option>
@@ -160,117 +189,38 @@
             </div>
           </div>
         </div>
-        <div v-else-if="hoveredItem==='Padding'" class="flex gap-4 w-full">
-          <div class="flex flex-col flex-1">
-            <label class="font-bold mb-1">Padding (px)</label>
-            <input type="number" v-model.number="blocks[selectedBlock].padding" class="input input-sm w-full" />
-          </div>
-        </div>
-        <div v-else-if="hoveredItem==='Font'" class="flex gap-4 w-full">
-          <div class="flex flex-col flex-1">
-            <label class="font-bold mb-1">Font Family</label>
-            <input type="text" v-model="font" class="input input-sm w-full" />
-          </div>
-          <div class="flex flex-col flex-1">
-            <label class="font-bold mb-1">fsTitle (px)</label>
-            <input type="number" v-model.number="blocks[selectedBlock].fsTitle" class="input input-sm w-full" />
-          </div>
-          <div class="flex flex-col flex-1">
-            <label class="font-bold mb-1">fsDesc (px)</label>
-            <input type="number" v-model.number="blocks[selectedBlock].fsDesc" class="input input-sm w-full" />
-          </div>
-        </div>
-        <div v-else-if="hoveredItem==='Above'" class="flex gap-4 w-full">
-          <div class="flex flex-col flex-1">
-            <label class="font-bold mb-1">Above Text</label>
-            <input type="text" v-model="blocks[selectedBlock].aboveText" class="input input-sm w-full" />
-          </div>
-          <div class="flex flex-col flex-1">
-            <label class="font-bold mb-1">fsAbove (px)</label>
-            <input type="number" v-model.number="blocks[selectedBlock].fsAbove" class="input input-sm w-full" />
-          </div>
-        </div>
-        <div v-else-if="hoveredItem==='Spacing'" class="flex gap-4 w-full">
-          <div class="flex flex-col flex-1">
-            <label class="font-bold mb-1">Text Spacing</label>
-            <input type="number" step="0.1" v-model.number="blocks[selectedBlock].textSpacing" class="input input-sm w-full" />
-          </div>
-        </div>
-        <div v-else-if="hoveredItem==='Position'" class="flex gap-4 w-full">
-          <div class="flex flex-col flex-1">
-            <label class="font-bold mb-1">Vertical Position</label>
-            <select v-model="blocks[selectedBlock].position" class="select select-sm w-full">
-              <option value="top">top</option>
-              <option value="center">center</option>
-              <option value="bottom">bottom</option>
-            </select>
-          </div>
-          <div class="flex flex-col flex-1">
-            <label class="font-bold mb-1">Horizontal Align</label>
-            <select v-model="blocks[selectedBlock].horizontalAlign" class="select select-sm w-full">
-              <option value="left">left</option>
-              <option value="center">center</option>
-              <option value="right">right</option>
-            </select>
-          </div>
-        </div>
       </div>
-      <ul
-        class="menu menu-horizontal bg-base-100 gap-4 rounded-box border border-primary"
-        style="width: 50vw;"
-      >
+
+      <!-- Menu principal -->
+      <ul class="menu menu-horizontal bg-base-100 gap-4 rounded-box border border-primary" style="width: 50vw;">
         <li class="flex-1" @mouseenter="setHover('Size')">
-          <a
-            :class="[
-              'flex items-center justify-center gap-2 w-full px-4 py-2',
-              hoveredItem === 'Size' ? 'bg-neutral' : 'bg-base-200'
-            ]"
-          >
+          <a :class="['flex items-center justify-center gap-2 w-full px-4 py-2', hoveredItem==='Size' ? 'bg-neutral' : 'bg-base-200']">
             Size
           </a>
         </li>
         <li class="flex-1" @mouseenter="setHover('Color')">
-          <a
-            :class="[
-              'flex items-center justify-center gap-2 w-full px-4 py-2',
-              hoveredItem === 'Color' ? 'bg-neutral' : 'bg-base-200'
-            ]"
-          >
+          <a :class="['flex items-center justify-center gap-2 w-full px-4 py-2', hoveredItem==='Color' ? 'bg-neutral' : 'bg-base-200']">
             Color
           </a>
         </li>
         <li class="flex-1" @mouseenter="setHover('Border')">
-          <a
-            :class="[
-              'flex items-center justify-center gap-2 w-full px-4 py-2',
-              hoveredItem === 'Border' ? 'bg-neutral' : 'bg-base-200'
-            ]"
-          >
+          <a :class="['flex items-center justify-center gap-2 w-full px-4 py-2', hoveredItem==='Border' ? 'bg-neutral' : 'bg-base-200']">
             Border
           </a>
         </li>
         <li class="flex-1" @mouseenter="setHover('Text')">
-          <a
-            :class="[
-              'flex items-center justify-center gap-2 w-full px-4 py-2',
-              hoveredItem === 'Text' ? 'bg-neutral' : 'bg-base-200'
-            ]"
-          >
+          <a :class="['flex items-center justify-center gap-2 w-full px-4 py-2', hoveredItem==='Text' ? 'bg-neutral' : 'bg-base-200']">
             Text
           </a>
         </li>
         <li class="flex-1" @mouseenter="setHover('Logo')">
-          <a
-            :class="[
-              'flex items-center justify-center gap-2 w-full px-4 py-2',
-              hoveredItem === 'Logo' ? 'bg-neutral' : 'bg-base-200'
-            ]"
-          >
+          <a :class="['flex items-center justify-center gap-2 w-full px-4 py-2', hoveredItem==='Logo' ? 'bg-neutral' : 'bg-base-200']">
             Logo
           </a>
         </li>
       </ul>
-      <!-- Block selector menu moved here -->
+
+      <!-- Sélecteur de bloc -->
       <ul class="flex gap-4 mb-4 bg-base-100 p-1 rounded-full mx-auto" style="width:50vw;">
         <li v-for="(b, idx) in blocks" :key="idx" @click="selectBlock(idx)">
           <a
@@ -283,12 +233,12 @@
           </a>
         </li>
       </ul>
+
     </div>
-</div>
+  </div>
 </template>
 
 <script>
-// Component logic for BlockPage
 export default {
   name: 'BlockPage',
   data() {
@@ -300,6 +250,7 @@ export default {
         height: 400,
         bgColor: '#131D2E',
         textColor: '#BFCCDB',
+        bgImage: '',               // URL de l'image de fond
         borderRadius: 20,
         padding: 20,
         title: 'Default Title',
@@ -328,7 +279,9 @@ export default {
     setHover(item) {
       this.hoveredItem = item;
     },
-    openLink() { window.open(this.blockLink, '_blank'); },
+    openLink() {
+      window.open(this.blockLink, '_blank');
+    },
     copyLink() {
       if (this.blockLink) {
         const title = this.blocks[this.selectedBlock].title;
@@ -353,9 +306,10 @@ export default {
       this.selectedBlock = idx;
     },
     buildLink() {
-      const base = this.numBlocks === 1
-        ? 'https://readme-chic.dycon-pv.workers.dev/?template=block'
-        : 'https://readme-chic.dycon-pv.workers.dev/?template=double';
+      const base =
+        this.numBlocks === 1
+          ? 'https://readme-chic.dycon-pv.workers.dev/?template=block'
+          : 'https://readme-chic.dycon-pv.workers.dev/?template=double';
       const params = new URLSearchParams();
       if (this.numBlocks === 1) {
         Object.entries(this.blocks[0]).forEach(([key, val]) => {
@@ -368,6 +322,7 @@ export default {
           params.set(`h${idx}`, b.height);
           params.set(`bgColor${idx}`, b.bgColor);
           params.set(`textColor${idx}`, b.textColor);
+          params.set(`bgImage${idx}`, b.bgImage);    // ajout du param bgImage
           params.set(`borderRadius${idx}`, b.borderRadius);
           params.set(`padding${idx}`, b.padding);
           params.set(`title${idx}`, b.title);
@@ -394,17 +349,20 @@ export default {
   },
   watch: {
     blocks: {
-      handler: function () { this.buildLink(); },
+      handler() {
+        this.buildLink();
+      },
       deep: true
     },
     gap: 'buildLink',
     numBlocks: 'buildLink'
   },
-  created() { this.buildLink(); }
+  created() {
+    this.buildLink();
+  }
 };
 </script>
 
-/* Scoped styles for BlockPage component */
 <style scoped>
 .banner {
   width: 100%;
@@ -412,7 +370,7 @@ export default {
   border-radius: 20px;
   background-color: #0D1116;
 }
-  
+
 /* Hover panel adjustment */
 .hover-panel {
   transition: opacity 0.2s ease-in-out;

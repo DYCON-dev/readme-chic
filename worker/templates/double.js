@@ -65,7 +65,7 @@ export async function renderDouble(params) {
 
   // Assemble final SVG
   let out = `<?xml version="1.0" encoding="UTF-8"?>\n`;
-  out += `<svg width="${totalWidth}" height="${totalHeight}" viewBox="0 0 ${totalWidth} ${totalHeight}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">\n`;
+  out += `<svg width="${totalWidth}" height="${totalHeight}" viewBox="0 0 ${totalWidth} ${totalHeight}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\n`;
   let xOffset = 0;
   fragments.forEach((f, idx) => {
     out += `  <g transform="translate(${xOffset},0)">\n${f.inner}\n  </g>\n`;

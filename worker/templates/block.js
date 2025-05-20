@@ -22,6 +22,7 @@ export async function renderBlock(params) {
     logoWidth    = fsTitle * 2, // width of logo in px, defaults to twice title size
     logoHeight   = fsTitle * 2, // height of logo in px, defaults to twice title size
     logoPosition = 'top',  // 'top' (above title), 'middle', or 'bottom'
+    bgImage      = '',         // URL of background image
     textSpacing  = 1.3,
     position     = 'bottom', // 'top' | 'bottom' | 'left' | 'right' position
     horizontalAlign = 'center', // 'left' | 'center' | 'right' alignment
@@ -42,6 +43,20 @@ export async function renderBlock(params) {
       binary += String.fromCharCode(bytes[i]);
     }
     logoData = `data:${mime};base64,${btoa(binary)}`;
+  }
+
+  // Fetch and encode background image to Data URI if provided
+  let bgImageData = '';
+  if (bgImage) {
+    const respBg = await fetch(bgImage);
+    const bufferBg = await respBg.arrayBuffer();
+    const mimeBg = respBg.headers.get('Content-Type') || 'image/png';
+    const bytesBg = new Uint8Array(bufferBg);
+    let binaryBg = '';
+    for (let i = 0; i < bytesBg.length; i++) {
+      binaryBg += String.fromCharCode(bytesBg[i]);
+    }
+    bgImageData = `data:${mimeBg};base64,${btoa(binaryBg)}`;
   }
 
   const defaultWidth = 800;
@@ -70,8 +85,17 @@ export async function renderBlock(params) {
   // Build SVG header
   let svg = `<?xml version="1.0" encoding="UTF-8"?>\n`;
   svg += `<svg width="${widthParam != null ? widthParam : '100%'}" height="${heightV}" preserveAspectRatio="none" viewBox="0 0 ${width} ${heightV}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img">\n`;
+  svg += `  <defs>
+    <clipPath id="clip">
+      <rect x="0" y="0" width="${width}" height="${heightV}" rx="${radius}" ry="${radius}" />
+    </clipPath>
+  </defs>\n`;
 
-  svg += `  <rect x="0" y="0" width="${width}" height="${heightV}" rx="${radius}" ry="${radius}" fill="${bgColor}"/>\n`;
+  if (bgImageData) {
+    svg += `  <image clip-path="url(#clip)" xlink:href="${bgImageData}" href="${bgImageData}" x="0" y="0" width="${width}" height="${heightV}" preserveAspectRatio="none"/>\n`;
+  } else {
+    svg += `  <rect x="0" y="0" width="${width}" height="${heightV}" rx="${radius}" ry="${radius}" fill="${bgColor}"/>\n`;
+  }
 
   // Inner border
   if (borderWidth > 0) {
