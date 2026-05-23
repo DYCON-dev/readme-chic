@@ -8,8 +8,9 @@
       <div class="badge badge-accent ml-2">Beta1</div>
       <div class="ml-auto gitmo flex items-center gap-4">
         <a
-          href="https://github.com/your-repo-url"
+          href="https://github.com/DYCON-dev/readme-chic"
           target="_blank"
+          rel="noopener noreferrer"
           class="btn btn-sm btn-accent z-10"
           aria-label="GitHub Repository"
         >

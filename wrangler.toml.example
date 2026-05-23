@@ -1,0 +1,19 @@
+# Cloudflare Workers config for readme-chic.
+# Copy this to wrangler.toml and edit, then run:
+#   npx wrangler deploy
+#
+# Docs: https://developers.cloudflare.com/workers/wrangler/configuration/
+
+name = "readme-chic"
+main = "worker/index.js"
+compatibility_date = "2024-05-01"
+
+# Either bind a custom domain you own:
+# routes = [
+#   { pattern = "yourdomain.com/svg/*", custom_domain = true }
+# ]
+#
+# …or just use the default *.workers.dev subdomain (no extra config needed).
+
+[observability]
+enabled = true
