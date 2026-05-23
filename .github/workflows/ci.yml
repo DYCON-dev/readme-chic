@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build-frontend:
+    name: Build Vue UI
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: front-readme-chic
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: front-readme-chic/package-lock.json
+
+      - run: npm ci
+      - run: npm run build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: front-readme-chic-dist
+          path: front-readme-chic/dist
+          retention-days: 7
+
+  lint-worker:
+    name: Lint Worker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # No formal test suite yet — just make sure the worker entry is valid JS.
+      - name: Syntax-check worker
+        run: |
+          node --check worker/index.js
+          for f in worker/templates/*.js; do node --check "$f"; done
