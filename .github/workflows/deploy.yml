@@ -15,9 +15,12 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    # Only deploy if the Cloudflare credentials secret is present
-    # (so forks without secrets just see the job skipped, not failed).
-    if: ${{ vars.CF_DEPLOY_ENABLED == 'true' || github.repository == 'DYCON-dev/readme-chic' }}
+    # Only deploy when the maintainer has explicitly opted in by setting
+    # the CF_DEPLOY_ENABLED repository variable to "true" (Settings ->
+    # Secrets and variables -> Actions -> Variables tab). This keeps the
+    # job from failing for forks and for the maintainer until the
+    # CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID secrets are ready.
+    if: ${{ vars.CF_DEPLOY_ENABLED == 'true' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
